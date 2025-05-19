@@ -12,7 +12,7 @@ define([], function () {
         sublistId: "expense",
       });
       //add the all the neccessary fields in the Array
-      var mandatoryFields = ["category", "department", "class", "location"];
+      var mandatoryFields = ["category", "department", "class"];
       for (var i = 0; i < mandatoryFields.length; i++) {
         var sublistColumn = categoryLine.getColumn({
           fieldId: mandatoryFields[i],
@@ -24,7 +24,6 @@ define([], function () {
       log.error("Error in PageInit", error.message);
     }
   }
-
   function validateLine(context) {
     try {
       var currentRecord = context.currentRecord;
@@ -56,6 +55,7 @@ define([], function () {
       //Checks whether the combination exists..
 
       var budgetRecord = validCombination(requiredFields);
+      log.debug("BudgetRecord", budgetRecord);
       if (!budgetRecord) return false;
     } catch (error) {
       log.error("Error in ValidateLine", error.message);
@@ -63,10 +63,41 @@ define([], function () {
   }
   function validCombination(requiredFields) {
     try {
-      var searchObj = {};
+      var searchObj = {
+        type: "customrecord_pts_mit_budgetfunds",
+        filters: [
+          ["custrecord_pts_mit_bdgt_class", "anyof", requiredFields.department],
+          "AND",
+          ["custrecord_pts_mit_costcenter", "anyof", requiredFields.class],
+          "AND",
+          [
+            "custrecord_pts_mit_bdgtaccgeup.custrecord_pts_mit_acc",
+            "anyof",
+            requiredFields.category,
+          ],
+        ],
+        columns: [
+          {
+            name: "custrecord_pts_mit_bdgtaccgeup",
+            label: "Budget Account Group",
+          },
+          {
+            name: "custrecord_pts_mit_costcenter",
+            label: "Cost Center",
+          },
+          {
+            name: "custrecord_pts_mit_bdgt_class",
+            label: "Department / School",
+          },
+          {
+            name: "custrecord_pts_mit_bdgt_location",
+            label: "location",
+          },
+        ],
+      };
       var result = util.getSearch(
         searchObj.type,
-        searchObj.filter,
+        searchObj.filters,
         searchObj.columns
       );
       if (result.length <= 0) {
