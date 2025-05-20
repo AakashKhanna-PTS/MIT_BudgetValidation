@@ -13,6 +13,7 @@ define([], function () {
       });
       //add the all the neccessary fields in the Array
       var mandatoryFields = ["category", "department", "class", "location"];
+      
       for (var i = 0; i < mandatoryFields.length; i++) {
         var sublistColumn = categoryLine.getColumn({
           fieldId: mandatoryFields[i],
