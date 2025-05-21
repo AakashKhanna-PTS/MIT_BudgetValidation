@@ -41,7 +41,6 @@ define(["SuiteScripts/pts_helper", "N/query", "N/record", "N/search", "N/format"
 
                  
                 if (sublistField == 'item') {
-
                     var uniqueAccountArray = []; var uniqeGetClassArray = []; var uniqeGetDepartment = []; var uniqeGetlocationArray = [];
 
                     var getLocation = currentRecord.getCurrentSublistValue({ sublistId: 'item', fieldId: 'custcol_pts_mit_budgetlocation'}); //location
