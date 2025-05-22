@@ -77,6 +77,7 @@ define(["SuiteScripts/pts_helper", "N/search", "N/record"], function (
       var budgetRecord = validCombination(requiredFields);
 
       setBudgetWarning(budgetRecord, currentRecord);
+      ///...
       log.debug("budgetRecord", budgetRecord);
       //Functino that sets The warning budget values
       //........
