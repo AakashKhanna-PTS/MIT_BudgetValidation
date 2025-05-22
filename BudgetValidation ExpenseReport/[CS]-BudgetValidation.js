@@ -36,6 +36,7 @@ define(["SuiteScripts/pts_helper", "N/search", "N/record"], function (
       var sublistField = context.sublistId;
       if (sublistField != "expense") return;
       var errorMessages = [];
+      var sumTwo = 5;
       var currentDate = currentRecord.getValue("trandate");
       var requiredFields = {
         category: null,
