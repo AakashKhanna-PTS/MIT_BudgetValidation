@@ -2,6 +2,11 @@
  *@NApiVersion 2.1
  *@NScriptType ClientScript
  */
+const BUDGET_ACCOUNT_GROUP_NOT_AVAILABLE = 11;
+const BUDGET_EXCEEDED = 6;
+const BUDGET_NOT_APPLICABLE = 12;
+const BUDGET_VALIDATION_WITHIN_BUDGET = 5;
+const MATCHING_BUDGET_NOT_AVAILABLE = 7;
 
 define(["SuiteScripts/pts_helper", "N/search", "N/record"], function (
   util,
@@ -155,7 +160,16 @@ define(["SuiteScripts/pts_helper", "N/search", "N/record"], function (
 
         requiredFields.expenseAccount = expenseAccount;
         var budgetRecord = validCombination(requiredFields);
+        log.debug("budgetRecord", budgetRecord);
+        if (!budgetRecord) {
+          alert("the budget combination does not exisit");
+          return false;
+        }
         var validFinacialBudget = getValidYearBudget(budgetRecord, currentDate);
+        if (!validFinacialBudget) {
+          alert("The Budget combination financial year is expired");
+          return false;
+        }
         //Function that fetches an object that holds all the necessary values to poplulate
         //Uses the above mentioned groupedBuget Object to group values
         var populateFields = getFieldsToPopulate(
@@ -169,27 +183,42 @@ define(["SuiteScripts/pts_helper", "N/search", "N/record"], function (
         setBudgetFields(currentRecord, i, populateFields);
       }
       //For loop validates the record if it holds exceeding budget
-      let budgetExceededSum = 0;
+      let budgetExceededSum = [];
+      let sum = 0;
       for (var i = 0; i < lineCount; i++) {
         var value = currentRecord.getSublistValue({
           sublistId: "expense",
           fieldId: "custcol_pts_ocr_budgetexcidngamnt",
           line: i,
         });
-
-        budgetExceededSum += Number(value);
+        log.debug("ValueExceeding", value);
+        if (Number(value) > 0) {
+          sum += Number(value);
+          budgetExceededSum.push({ line: i + 1, value: value });
+        }
       }
-      currentRecord.setValue(
-        "custbody_pts_ocr_budgetexcededamont",
-        budgetExceededSum
-      );
+      currentRecord.setValue("custbody_pts_ocr_budgetexcededamont", sum);
       var date = currentRecord.getValue("trandate");
       log.debug("date", date);
       currentRecord.setValue("custbody_pts_ocr_budgetvaldtddate", new Date());
-      if (budgetExceededSum > 0) {
+      var alertString = "";
+      if (budgetExceededSum.length > 0) {
+        for (let i = 0; i < budgetExceededSum.length; i++) {
+          alertString += `Budget exceeding value of ${budgetExceededSum[i].value} in Line ${budgetExceededSum[i].line} \n`;
+        }
+        log.debug("alerrtSting", alertString);
+        currentRecord.setValue(
+          "custbody_pts_mit_budgetstatus",
+          BUDGET_EXCEEDED
+        );
+        alert(alertString);
         return false;
       }
       //If all validation passes it lets you save the record
+      currentRecord.setValue(
+        "custbody_pts_mit_budgetstatus",
+        BUDGET_VALIDATION_WITHIN_BUDGET
+      );
       return true;
     } catch (error) {
       log.error("Error in saveRecord", error.message);
