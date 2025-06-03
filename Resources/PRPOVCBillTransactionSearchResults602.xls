@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+ <Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+<DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+<Author>NetSuite</Author>
+<LastAuthor>NetSuite</LastAuthor>
+<Company>NetSuite</Company>
+</DocumentProperties>
+<Styles>
+<Style ss:ID="company">
+<Alignment ss:Horizontal="Center"/>
+<Font ss:Bold="1"/>
+</Style> <Style ss:ID="error">
+<Alignment ss:Horizontal="Center"/>
+<Interior ss:Color="#d04040" ss:Pattern="Solid"/>
+<Font ss:Bold="1"/>
+</Style> <Style ss:ID="header">
+<Alignment ss:Horizontal="Center"/>
+<Font ss:Size="7" ss:Bold="1"/>
+<Interior ss:Color="#d0d0d0" ss:Pattern="Solid"/>
+</Style> <Style ss:ID="Default" ss:Name="Normal">
+<Alignment ss:Vertical="Bottom"/>
+<Borders/>
+<Font ss:FontName="Arial" ss:Size="8"/>
+<Interior/>
+<NumberFormat/>
+<Protection/>
+</Style>
+<Style ss:ID="s__TIMEOFDAY"><NumberFormat ss:Format="Medium Time"/></Style>
+<Style ss:ID="s__DATETIME"><NumberFormat ss:Format="General Date"/></Style>
+<Style ss:ID="s__DATETIMETZ"><NumberFormat ss:Format="General Date"/></Style>
+<Style ss:ID="s__DATE"><NumberFormat ss:Format="Short Date"/>
+</Style><Style ss:ID="s__text"></Style><Style ss:ID="s__currency"><NumberFormat ss:Format="Currency"/></Style>
+<Style ss:ID="s__percent"><NumberFormat ss:Format="Percent"/></Style>
+<Style ss:ID="s1_b_text"><Alignment ss:Indent="1"/><Font ss:FontName="Verdana" x:Family="Swiss" ss:Size="8" ss:Color="#000000" ss:Bold="1"/></Style>
+<Style ss:ID="s_b_text"><Font ss:FontName="Verdana" x:Family="Swiss" ss:Size="8" ss:Color="#000000" ss:Bold="1"/></Style>
+<Style ss:ID="s2__text"><Alignment ss:Indent="2"/></Style>
+<Style ss:ID="s_b_currency"><Font ss:FontName="Verdana" x:Family="Swiss" ss:Size="8" ss:Color="#000000" ss:Bold="1"/><NumberFormat ss:Format="Currency"/></Style>
+<Style ss:ID="s_currency_nosymbol"><Font ss:FontName="Verdana" x:Family="Swiss" ss:Size="8" ss:Color="#000000" /><NumberFormat ss:Format="#,##0.00_);[Red]\(#,##0.00\)"/></Style>
+<Style ss:ID="s1__text"><Alignment ss:Indent="1"/></Style>
+<Style ss:ID="s_b_currency_X"><Font ss:FontName="Verdana" x:Family="Swiss" ss:Size="8" ss:Color="#000000" ss:Bold="1"/><Interior ss:Color="#f0e0e0" ss:Pattern="Solid"/><NumberFormat ss:Format="Currency"/></Style>
+<Style ss:ID="s__currency_fr_FR_EURO"><Alignment ss:Vertical="Center" ss:Horizontal="Right"/><NumberFormat ss:Format="&quot;€&quot;#,##0.00_);(&quot;€&quot;#,##0.00)"/></Style>
+<Style ss:ID="s__currency_ne_NP"><Alignment ss:Vertical="Center" ss:Horizontal="Right"/><NumberFormat ss:Format="&quot;$&quot;#,##0.00_);(&quot;$&quot;#,##0.00)"/></Style>
+<Style ss:ID="s__currency_en_CA"><Alignment ss:Vertical="Center" ss:Horizontal="Right"/><NumberFormat ss:Format="&quot;Can$&quot;#,##0.00_);(&quot;Can$&quot;#,##0.00)"/></Style>
+<Style ss:ID="s__currency_en_IN"><Alignment ss:Vertical="Center" ss:Horizontal="Right"/><NumberFormat ss:Format="&quot;0#Rs.|1#Re.|1<Rs.&quot;#,##0.00_);(&quot;0#Rs.|1#Re.|1<Rs.&quot;#,##0.00)"/></Style>
+<Style ss:ID="s__currency_en_US"><Alignment ss:Vertical="Center" ss:Horizontal="Right"/><NumberFormat ss:Format="&quot;$&quot;#,##0.00_);(&quot;$&quot;#,##0.00)"/></Style>
+<Style ss:ID="s__currency_en_GB"><Alignment ss:Vertical="Center" ss:Horizontal="Right"/><NumberFormat ss:Format="&quot;£&quot;#,##0.00_);(&quot;£&quot;#,##0.00)"/></Style>
+<Style ss:ID="s__currency_en_AE"><Alignment ss:Vertical="Center" ss:Horizontal="Right"/><NumberFormat ss:Format="&quot;AED&quot;#,##0.00_);(&quot;AED&quot;#,##0.00)"/></Style>
+<Style ss:ID="s__currency_en_KW"><Alignment ss:Vertical="Center" ss:Horizontal="Right"/><NumberFormat ss:Format="&quot;KD&quot;#,##0.00_);(&quot;KD&quot;#,##0.00)"/></Style>
+</Styles>
+<Worksheet ss:Name="PRPOVCBillTransactionSearchRes">
+<Table><Row>
+<Cell ss:StyleID="header"><Data ss:Type="String">Internal ID</Data></Cell>
+<Cell ss:StyleID="header"><Data ss:Type="String">Applied To Transaction</Data></Cell>
+<Cell ss:StyleID="header"><Data ss:Type="String">Record Type</Data></Cell>
+<Cell ss:StyleID="header"><Data ss:Type="String">Allocated Budget</Data></Cell>
+<Cell ss:StyleID="header"><Data ss:Type="String">Amount (Credit)</Data></Cell>
+<Cell ss:StyleID="header"><Data ss:Type="String">Amount (Debit)</Data></Cell>
+<Cell ss:StyleID="header"><Data ss:Type="String">Amount (Foreign Currency)</Data></Cell>
+<Cell ss:StyleID="header"><Data ss:Type="String">Amount (Credit) (Foreign Currency)</Data></Cell>
+<Cell ss:StyleID="header"><Data ss:Type="String">Amount (Debit) (Foreign Currency)</Data></Cell>
+<Cell ss:StyleID="header"><Data ss:Type="String">Approval Status</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="Number">161279</Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String"> </Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String">purchaseorder</Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String">4200</Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number"></Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number">13000.00</Data></Cell>
+<Cell ss:StyleID="s__currency_en_IN"><Data ss:Type="Number">13000.00</Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number"></Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number">13000.00</Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String">Approved</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="Number">161283</Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String">Purchase Order #PO/2025-26/12586</Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String">vendorbill</Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String">4200</Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number"></Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number">13000.00</Data></Cell>
+<Cell ss:StyleID="s__currency_en_IN"><Data ss:Type="Number">-13000.00</Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number"></Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number">13000.00</Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String">Approved</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="Number">161283</Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String">Item Receipt #GR24-25/1303</Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String">vendorbill</Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String">4200</Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number"></Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number">13000.00</Data></Cell>
+<Cell ss:StyleID="s__currency_en_IN"><Data ss:Type="Number">-13000.00</Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number"></Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number">13000.00</Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String">Approved</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="Number">161285</Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String">Bill #BILL5 (PO9)</Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String">vendorcredit</Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String">4200</Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number">13000.00</Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number"></Data></Cell>
+<Cell ss:StyleID="s__currency_en_IN"><Data ss:Type="Number">-13000.00</Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number">13000.00</Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number"></Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String"></Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="Number">161293</Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String"> </Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String">vendorbill</Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String">4200</Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number"></Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number">18000.00</Data></Cell>
+<Cell ss:StyleID="s__currency_en_IN"><Data ss:Type="Number">18000.00</Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number"></Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number">18000.00</Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String">Pending Approval</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="Number">161294</Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String"> </Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String">purchaserequisition</Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String">4200</Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number"></Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number">799.50</Data></Cell>
+<Cell ss:StyleID="s__currency_en_IN"><Data ss:Type="Number">799.50</Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number"></Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number">799.50</Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String">Approved</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="Number">161296</Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String">Requisition #PR24-25/12059</Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String">purchaseorder</Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String">4200</Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number"></Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number">1000.00</Data></Cell>
+<Cell ss:StyleID="s__currency_en_IN"><Data ss:Type="Number">1000.00</Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number"></Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number">1000.00</Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String">Approved</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="Number">161298</Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String">Requisition #PR24-25/12061</Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String">purchaseorder</Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String">4200</Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number"></Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number">1800.00</Data></Cell>
+<Cell ss:StyleID="s__currency_en_IN"><Data ss:Type="Number">1800.00</Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number"></Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number">1800.00</Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String">Rejected</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="Number">161496</Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String"> </Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String">purchaserequisition</Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String">4200</Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number"></Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number">1000.00</Data></Cell>
+<Cell ss:StyleID="s__currency_en_IN"><Data ss:Type="Number">1000.00</Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number"></Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number">1000.00</Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String">Approved</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="Number">161504</Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String"> </Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String">purchaserequisition</Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String">4200</Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number"></Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number">2000.00</Data></Cell>
+<Cell ss:StyleID="s__currency_en_IN"><Data ss:Type="Number">2000.00</Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number"></Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number">2000.00</Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String">Approved</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="Number">161508</Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String"> </Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String">purchaserequisition</Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String">4200</Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number"></Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number"></Data></Cell>
+<Cell ss:StyleID="s__currency_en_IN"><Data ss:Type="Number">.00</Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number"></Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number"></Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String">Approved</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="Number">161509</Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String"> </Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String">purchaserequisition</Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String">4200</Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number"></Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number"></Data></Cell>
+<Cell ss:StyleID="s__currency_en_IN"><Data ss:Type="Number">.00</Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number"></Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number"></Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String">Pending Approval</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="Number">161822</Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String">Purchase Order #PO/2025-26/12591</Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String">vendorbill</Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String">4200</Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number"></Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number">1000.00</Data></Cell>
+<Cell ss:StyleID="s__currency_en_IN"><Data ss:Type="Number">-1000.00</Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number"></Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number">1000.00</Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String">Approved</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="Number">161822</Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String">Item Receipt #GR24-25/1306</Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String">vendorbill</Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String">4200</Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number"></Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number">1000.00</Data></Cell>
+<Cell ss:StyleID="s__currency_en_IN"><Data ss:Type="Number">-1000.00</Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number"></Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number">1000.00</Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String">Approved</Data></Cell>
+</Row>
+<Row><Cell ss:StyleID="s__text"><Data ss:Type="Number">161824</Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String">Bill #BILL1 (PO1)</Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String">vendorcredit</Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String">4200</Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number">1000.00</Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number"></Data></Cell>
+<Cell ss:StyleID="s__currency_en_IN"><Data ss:Type="Number">-1000.00</Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number">1000.00</Data></Cell>
+<Cell ss:StyleID="s_currency_nosymbol"><Data ss:Type="Number"></Data></Cell>
+<Cell ss:StyleID="s__text"><Data ss:Type="String"></Data></Cell>
+</Row>
+</Table>
+</Worksheet>
+</Workbook>

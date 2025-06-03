@@ -7,22 +7,23 @@ const BUDGET_EXCEEDED = 6;
 const BUDGET_NOT_APPLICABLE = 12;
 const BUDGET_VALIDATION_WITHIN_BUDGET = 5;
 const MATCHING_BUDGET_NOT_AVAILABLE = 7;
+const SUBLIST_ID = "line";
 
-define(["SuiteScripts/pts_helper", "N/search", "N/record"], function (
+define(["SuiteScripts/pts_helper", "N/record", "N/search"], function (
   util,
-  search,
-  record
+  record,
+  search
 ) {
   //Using pageInit to make the neccessary fields Mandatory.
   function pageInit(context) {
     try {
       var CurrentRecord = context.currentRecord;
       var categoryLine = CurrentRecord.getSublist({
-        sublistId: "expense",
+        sublistId: SUBLIST_ID,
       });
       //add the all the neccessary fields in the Array
 
-      var mandatoryFields = ["category", "department", "class"];
+      var mandatoryFields = ["department", "class"];
       for (var i = 0; i < mandatoryFields.length; i++) {
         var sublistColumn = categoryLine.getColumn({
           fieldId: mandatoryFields[i],
@@ -39,12 +40,23 @@ define(["SuiteScripts/pts_helper", "N/search", "N/record"], function (
     try {
       var currentRecord = context.currentRecord;
       var sublistField = context.sublistId;
-      if (sublistField != "expense") return;
+      if (sublistField != SUBLIST_ID) return;
       var errorMessages = [];
-      var sumTwo = 5;
+      var budgetValidationCheckbox = currentRecord.getValue(
+        "custbody_budget_validation_needed"
+      );
+      var accountId = currentRecord.getCurrentSublistValue({
+        sublistId: SUBLIST_ID,
+        fieldId: "account",
+      });
+      var accountBudgetCheckbox = search.lookupFields({
+        type: "account",
+        id: accountId,
+        columns: "custrecord_enable_budget_validation",
+      }).custrecord_enable_budget_validation;
+
       var currentDate = currentRecord.getValue("trandate");
       var requiredFields = {
-        category: null,
         department: null,
         class: null,
         location: null,
@@ -52,7 +64,7 @@ define(["SuiteScripts/pts_helper", "N/search", "N/record"], function (
 
       for (let key in requiredFields) {
         var value = currentRecord.getCurrentSublistValue({
-          sublistId: "expense",
+          sublistId: SUBLIST_ID,
           fieldId: key,
         });
         requiredFields[key] = value;
@@ -60,24 +72,35 @@ define(["SuiteScripts/pts_helper", "N/search", "N/record"], function (
           continue;
         }
         if (!_logValidation(value)) {
+          var line = currentRecord.getCurrentSublistValue({
+            sublistId: SUBLIST_ID,
+            fieldId: "line",
+          });
           errorMessages.push({
             success: false,
-            message: `${key} does not hold any Value`,
+            message: `in line: ${line}${key} does not hold any Value`,
           });
         }
       }
       log.debug("ErrorMessages", errorMessages);
-      if (errorMessages.length > 0) return false;
+      if (errorMessages.length > 0) {
+        var alertString = "";
+        for (let i = 0; i < errorMessages.length; i++) {
+          alertString += `${errorMessages[i].message}  \n`;
+        }
+        alert(alertString);
+        return false;
+      }
 
       //This field value was not available so loading the record
-      var expenseRecord = record.load({
-        type: "expensecategory",
-        id: requiredFields.category,
-      });
-      var expenseAccount = expenseRecord.getValue("expenseacct");
+      //   var expenseRecord = record.load({
+      //     type: "expensecategory",
+      //     id: requiredFields.category,
+      //   });
+      //   var expenseAccount = expenseRecord.getValue("expenseacct");
 
       //..........
-      requiredFields.expenseAccount = expenseAccount;
+      //   requiredFields.expenseAccount = expenseAccount;
       //Checks whether the combination exists..
       var budgetRecord = validCombination(requiredFields);
 
@@ -101,28 +124,38 @@ define(["SuiteScripts/pts_helper", "N/search", "N/record"], function (
         alert("The location is not valid");
         return false;
       }
-
+      if (!budgetValidationCheckbox && !accountBudgetCheckbox) {
+        alert(
+          "BUDGET VALIDATION NEEDED checkbox is not checked for the Journal and \n ENABLE BUDGET VALIDATION for the current line account is not checked"
+        );
+        return true;
+      }
+      if (!budgetValidationCheckbox) {
+        alert(
+          "BUDGET VALIDATION NEEDED checkbox is not checked for the Journal"
+        );
+        return true;
+      }
+      if (!accountBudgetCheckbox) {
+        alert(
+          "ENABLE BUDGET VALIDATION for the current line account is not checked"
+        );
+        return true;
+      }
       return true;
     } catch (error) {
       log.error("Error in ValidateLine", error.message);
     }
   }
-  function getValidYearBudget(budgetRecord, currentDate) {
-    for (let i = 0; i < budgetRecord.length; i++) {
-      var dateRange = budgetRecord[i].custrecord_pts_mit_bdgt_fy_txt;
-      var validateDate = validateYearRange(currentDate, dateRange);
-      if (validateDate) {
-        return budgetRecord[i];
-      }
-    }
-    return false;
-  }
+
   //sets all the necessary data and validates the record while saving
   function saveRecord(context) {
     try {
       var currentRecord = context.currentRecord;
+      var budgetExceeding = false;
+      var requiredFieldsPresent = true;
       var lineCount = currentRecord.getLineCount({
-        sublistId: "expense",
+        sublistId: SUBLIST_ID,
       });
       var currentDate = currentRecord.getValue("trandate");
       //GroupedBudget is used in a below function to group the consumed amount as per different budget funds
@@ -130,35 +163,47 @@ define(["SuiteScripts/pts_helper", "N/search", "N/record"], function (
       for (var i = 0; i < lineCount; i++) {
         var errorMessages = [];
         var requiredFields = {
-          category: null,
+          //   category: null,
           department: null,
           class: null,
         };
+        var alerrtSting = "";
         for (let key in requiredFields) {
           var value = currentRecord.getSublistValue({
-            sublistId: "expense",
+            sublistId: SUBLIST_ID,
             fieldId: key,
             line: i,
           });
           if (!_logValidation(value)) {
-            errorMessages.push({
-              success: false,
-              message: `${key} does not hold any Value`,
-            });
+            alerrtSting += `   ${key} does not hold any Value \n`;
           }
           requiredFields[key] = value;
         }
+        if (alerrtSting != "") {
+          errorMessages.push({
+            line: i + 1,
+            message: alerrtSting,
+          });
+        }
+
         log.debug("ErrorMessages", errorMessages);
-        if (errorMessages.length > 0) return true;
+        if (errorMessages.length > 0) {
+          var alertString = "";
+          for (let i = 0; i < errorMessages.length; i++) {
+            alertString += `Line ${errorMessages[i].line} shows :\n${errorMessages[i].message}`;
+          }
+          alert(alertString);
+          return false;
+        }
         //Loading the record because, not able to get it through search.
-        var expenseRecord = record.load({
-          type: "expensecategory",
-          id: requiredFields.category,
-        });
-        var expenseAccount = expenseRecord.getValue("expenseacct");
+        // var expenseRecord = record.load({
+        //   type: "expensecategory",
+        //   id: requiredFields.category,
+        // });
+        // var expenseAccount = expenseRecord.getValue("expenseacct");
         //Pushing the expenseAcccount to the requiredFields object for further use
 
-        requiredFields.expenseAccount = expenseAccount;
+        // requiredFields.expenseAccount = expenseAccount;
         var budgetRecord = validCombination(requiredFields);
         log.debug("budgetRecord", budgetRecord);
         if (!budgetRecord) {
@@ -170,13 +215,13 @@ define(["SuiteScripts/pts_helper", "N/search", "N/record"], function (
           alert("The Budget combination financial year is expired");
           return false;
         }
+
         //Function that fetches an object that holds all the necessary values to poplulate
         //Uses the above mentioned groupedBuget Object to group values
         var populateFields = getFieldsToPopulate(
           currentRecord,
           i,
           validFinacialBudget,
-          expenseAccount,
           groupedBudget
         );
         //Function to set the fetched object values in line
@@ -187,7 +232,7 @@ define(["SuiteScripts/pts_helper", "N/search", "N/record"], function (
       let sum = 0;
       for (var i = 0; i < lineCount; i++) {
         var value = currentRecord.getSublistValue({
-          sublistId: "expense",
+          sublistId: SUBLIST_ID,
           fieldId: "custcol_pts_ocr_budgetexcidngamnt",
           line: i,
         });
@@ -212,7 +257,7 @@ define(["SuiteScripts/pts_helper", "N/search", "N/record"], function (
           BUDGET_EXCEEDED
         );
         alert(alertString);
-        return false;
+        budgetExceeding = true;
       }
       //If all validation passes it lets you save the record
       currentRecord.setValue(
@@ -224,18 +269,77 @@ define(["SuiteScripts/pts_helper", "N/search", "N/record"], function (
       log.error("Error in saveRecord", error.message);
     }
   }
+  function validateJournalBuget(requiredObj) {
+    var checkBox1 = requiredObj.custbody_budget_validation_needed;
+    var checkbox2 = requiredObj;
+    var checkbox3 = requiredObj;
+    if (checkBox1 && !checkbox2 && checkbox3)
+      return {
+        warning: null,
+        save: true,
+        error: null,
+      };
+    if (
+      !checkBox1 &&
+      checkbox2 &&
+      checkbox3 &&
+      checkbox4 &&
+      checkbox5 &&
+      checkbox6
+    )
+      return {
+        warning: true,
+        save: true,
+        error: null,
+      };
 
+    if (!checkBox1 && checkbox2 && checkbox3 && checkbox4 && !checkbox5)
+      return {
+        warning: null,
+        save: false,
+        error: "Error: Budget not found",
+      };
+    if (
+      checkBox1 &&
+      checkbox2 &&
+      checkbox3 &&
+      checkbox4 &&
+      checkbox5 &&
+      checkbox6
+    )
+      return {
+        warning: null,
+        save: true,
+        error: null,
+      };
+    if (!checkBox1 && !checkbox2 && !checkbox3)
+      return {
+        warning: null,
+        save: true,
+        error: null,
+      };
+  }
   //All the used secondry funtions are mentioned below...
+  function getValidYearBudget(budgetRecord, currentDate) {
+    for (let i = 0; i < budgetRecord.length; i++) {
+      var dateRange = budgetRecord[i].custrecord_pts_mit_bdgt_fy_txt;
+      var validateDate = validateYearRange(currentDate, dateRange);
+      if (validateDate) {
+        return budgetRecord[i];
+      }
+    }
+    return false;
+  }
   function setBudgetWarning(budgetRecord, currentRecord) {
     if (!budgetRecord) {
       currentRecord.setCurrentSublistValue({
-        sublistId: "expense",
+        sublistId: SUBLIST_ID,
         fieldId: "custcol_pts_ocr_budgetwrnig",
         value: "Budget combination does not exisit",
       });
     } else {
       currentRecord.setCurrentSublistValue({
-        sublistId: "expense",
+        sublistId: SUBLIST_ID,
         fieldId: "custcol_pts_ocr_budgetwrnig",
         value: "",
       });
@@ -294,12 +398,12 @@ define(["SuiteScripts/pts_helper", "N/search", "N/record"], function (
           ["custrecord_pts_mit_bdgt_class", "anyof", requiredFields.class],
           "AND",
           ["custrecord_pts_mit_costcenter", "anyof", requiredFields.department],
-          "AND",
-          [
-            "custrecord_pts_mit_bdgtaccgeup.custrecord_pts_mit_acc",
-            "anyof",
-            requiredFields.expenseAccount,
-          ],
+          //   "AND",
+          //   [
+          //     "custrecord_pts_mit_bdgtaccgeup.custrecord_pts_mit_acc",
+          //     "anyof",
+          //     requiredFields.expenseAccount,
+          //   ],
           "AND",
           ["isinactive", "is", "F"],
         ],
@@ -344,7 +448,6 @@ define(["SuiteScripts/pts_helper", "N/search", "N/record"], function (
     currentRecord,
     line,
     budgetRecord,
-    expenseAccount,
     groupedBudget
   ) {
     var populateFields = {
@@ -353,7 +456,7 @@ define(["SuiteScripts/pts_helper", "N/search", "N/record"], function (
       custcol_pts_ocr_budgetexcidngamnt: null,
       custcol_pts_mit_bdgt_ac_grp_line: null,
       custcol_mit_alocted_budget: null,
-      custcol_ocr_bdgt_itms_ac: null,
+      //   custcol_ocr_bdgt_itms_ac: null,
       custcol_ptc_ocr_segment_on_budget: null,
     };
 
@@ -361,8 +464,8 @@ define(["SuiteScripts/pts_helper", "N/search", "N/record"], function (
     var budgetId = budgetRecordFields.id;
 
     var currentAmount = currentRecord.getSublistValue({
-      sublistId: "expense",
-      fieldId: "amount",
+      sublistId: SUBLIST_ID,
+      fieldId: "totalamount",
       line: line,
     });
     if (groupedBudget[budgetId]) {
@@ -387,24 +490,24 @@ define(["SuiteScripts/pts_helper", "N/search", "N/record"], function (
     populateFields.custcol_pts_mit_bdgt_ac_grp_line =
       budgetRecordFields.custrecord_pts_mit_bdgtaccgeup;
     populateFields.custcol_mit_alocted_budget = budgetRecordFields.id;
-    populateFields.custcol_ocr_bdgt_itms_ac = expenseAccount;
+    // populateFields.custcol_ocr_bdgt_itms_ac = expenseAccount;
     populateFields.custcol_ptc_ocr_segment_on_budget = budgetSegment;
     return populateFields;
   }
   function setBudgetFields(currentRecord, line, populateFields) {
     currentRecord.selectLine({
-      sublistId: "expense",
+      sublistId: SUBLIST_ID,
       line: line,
     });
     for (key in populateFields) {
       currentRecord.setCurrentSublistValue({
-        sublistId: "expense",
+        sublistId: SUBLIST_ID,
         fieldId: key,
         value: populateFields[key],
       });
     }
     currentRecord.commitLine({
-      sublistId: "expense",
+      sublistId: SUBLIST_ID,
     });
   }
   function getExceedingAmount(currentAmount, budgetRecord) {
